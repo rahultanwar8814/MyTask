@@ -17,10 +17,15 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 const val RC_SIGN_IN = 123
 
 class MainActivity : AppCompatActivity() {
+    val database = Firebase.database
+
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private lateinit var binding: ActivityMainBinding
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -29,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val myRef = database.getReference("Live Location")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("956918141582-bi9n0u8uqdlkpqa760r9ab0dg9dmhrdb.apps.googleusercontent.com")
@@ -46,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
         binding.getLoc.setOnClickListener {
-            checkLocationPermission()
+            checkLocationPermission(myRef)
         }
     }
 
@@ -62,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun checkLocationPermission() {
+    fun checkLocationPermission(myRef: DatabaseReference) {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -76,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
         task.addOnSuccessListener {
             if (it != null) {
+                myRef.setValue("latitude:${it.longitude} longitude:${it.longitude}")
                 Toast.makeText(applicationContext,
                     "${it.latitude} ${it.longitude}",
                     Toast.LENGTH_SHORT).show()
