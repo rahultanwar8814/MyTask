@@ -42,6 +42,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+      //  val sydney = LatLng(27.897551,77.384117)
+
         val sydney = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
         val markOptionM = MarkerOptions().position(sydney).title("I am Here")
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(sydney))
