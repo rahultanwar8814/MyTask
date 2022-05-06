@@ -38,8 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val myRef = database.getReference("Live Location")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission(myRef)
-        val kk = isGPSEnabled()
-        Log.d("qqqqqq",kk.toString())
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
