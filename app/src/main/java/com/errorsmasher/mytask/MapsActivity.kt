@@ -3,6 +3,7 @@ package com.errorsmasher.mytask
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -25,6 +26,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     val database = Firebase.database
     var currentLocation: Location? = null
+    val PERMISSION_ID = 1010
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -32,6 +34,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val myRef = database.getReference("Live Location")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission(myRef)
+        var permission = checkPermissions()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -50,7 +53,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                101)
+                PERMISSION_ID)
 
             return
         }
@@ -65,6 +68,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.makeText(applicationContext,
                     "${it.latitude} ${it.longitude}",
                     Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == PERMISSION_ID){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Log.d("Debug:","You have the Permission")
+                val myRef = database.getReference("Live Location")
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+                checkLocationPermission(myRef)
+            }else{
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    PERMISSION_ID)
             }
         }
     }
