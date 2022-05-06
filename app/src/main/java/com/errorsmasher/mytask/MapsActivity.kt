@@ -1,12 +1,8 @@
 package com.errorsmasher.mytask
 
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
-import android.location.LocationRequest
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -30,7 +26,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     val database = Firebase.database
     var currentLocation: Location? = null
     val PERMISSION_ID = 1010
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -38,12 +33,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val myRef = database.getReference("Live Location")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission(myRef)
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-      //  val sydney = LatLng(27.897551,77.384117)
-
+        //  val sydney = LatLng(27.897551,77.384117)
         val sydney = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
         val markOptionM = MarkerOptions().position(sydney).title("I am Here")
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(sydney))
@@ -78,16 +71,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-//    fun checkPermissions(): Boolean {
-//        if (ActivityCompat.checkSelfPermission(this,
-//                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-//            && ActivityCompat.checkSelfPermission(this,
-//                android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            return true
-//        }
-//        return false
-//    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -105,14 +88,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     PERMISSION_ID)
             }
         }
-    }
-    private fun isGPSEnabled(): Boolean {
-        var locationManager: LocationManager? = null
-        var isEnabled = false
-        if (locationManager == null) {
-            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        }
-        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        return isEnabled
     }
 }
