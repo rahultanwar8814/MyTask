@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
         binding.getLoc.setOnClickListener {
-            val intent = Intent(this, CurrentLocationActivity::class.java).apply {
+            val intent = Intent(this, MapsActivity::class.java).apply {
             }
             startActivity(intent)
         }
