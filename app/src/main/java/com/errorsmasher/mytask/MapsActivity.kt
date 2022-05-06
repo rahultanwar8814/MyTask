@@ -1,8 +1,12 @@
 package com.errorsmasher.mytask
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
+import android.location.LocationRequest
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,6 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     val database = Firebase.database
     var currentLocation: Location? = null
     val PERMISSION_ID = 1010
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -33,6 +38,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val myRef = database.getReference("Live Location")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission(myRef)
+        val kk = isGPSEnabled()
+        Log.d("qqqqqq",kk.toString())
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -97,5 +104,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     PERMISSION_ID)
             }
         }
+    }
+    private fun isGPSEnabled(): Boolean {
+        var locationManager: LocationManager? = null
+        var isEnabled = false
+        if (locationManager == null) {
+            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        }
+        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        return isEnabled
     }
 }
