@@ -52,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         binding.onGps.setOnClickListener {
             requestDeviceLocationSettings()
         }
+        binding.getRetrofitData.setOnClickListener {
+            val intent = Intent(this, RetrofitActivity::class.java).apply {
+            }
+            startActivity(intent)
+        }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
