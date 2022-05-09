@@ -36,7 +36,7 @@ class RetrofitActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(t: Throwable?) {
-                    Log.d("qqqqq", "ERROR")
+                    Log.d("qqqqq", t.toString())
                 }
             })
         }

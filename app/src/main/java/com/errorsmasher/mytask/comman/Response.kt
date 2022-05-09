@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 class Response {
     @SerializedName("fname")
-    var fname: String? = null
+    lateinit var fname: String
     @SerializedName("lname")
-    var lname: String? = null
+    lateinit var lname: String
     @SerializedName("mobile")
-    var mobile: String? = null
+    lateinit var mobile: String
     @SerializedName("email")
-    var email: String? = null
+    lateinit var email: String
     @SerializedName("address")
-    var address: String? = null
+    lateinit var address: String
     @SerializedName("dor")
-    var dor: String? = null
+    lateinit var dor: String
 }

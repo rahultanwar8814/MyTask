@@ -11,6 +11,6 @@ interface TestApi {
     @POST("https://www.maishainfotech.com/interview/fetchdata.php")
     fun getRetroFitResponce(
         @Header("Authorization") authHeader: String,
-        @Field("email") email: String
+        @Field("email") userEmail: String
     ): Call<EarningModal>
 }
