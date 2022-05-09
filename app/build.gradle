@@ -56,4 +56,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
+    //    Retrofit
+    def retrofit_ver = "2.0.0-beta2"
+    implementation "com.squareup.retrofit:retrofit:$retrofit_ver"
+    implementation "com.squareup.retrofit:converter-gson:$retrofit_ver"
+
+
+    implementation 'com.google.code.gson:gson:2.8.9'
+
 }
