@@ -12,5 +12,5 @@ interface TestApi {
     fun getRetroFitResponce(
         @Header("Authorization") authHeader: String,
         @Field("email") userEmail: String
-    ): Call<EarningModal>
+    ): Call<ResponcModal>
 }
